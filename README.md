@@ -9,6 +9,7 @@ Prerequisites
 You need to have an OpenShift account: if not, [create a new one](https://www.openshift.com/app/account/new).
 
 Secondly, you need to install and configure `rhc` tools on your computer:
+
     gem install rhc
     rhc setup
 
@@ -20,6 +21,7 @@ Add django enabler
 ------------------
 
 Run the following commands to add the current project to the app repository:
+
     cd mynewapp
     git remote add upstream -m master git://github.com/lrivallain/openshift-django1.7-py3.git
     git pull -s recursive -X theirs upstream master
@@ -43,17 +45,19 @@ Or by using python command line:
 
 When key is generated, you need to set an environment variables on the OpenShift cartridge:
 
-    rhc set-env DJANGO\_SETTINGS\_SECRET_KEY="your-secret-key" -a mynewapp
+    rhc set-env DJANGO_SETTINGS_SECRET_KEY="your-secret-key" -a mynewapp
 
 ### Database backend
 
 In `mynewapp/openshift/settings.py`, MySQL backend is configured. If you whant to use one, you'll need to have a database cartridge to your app. Examples:
 
 MySQL:
+
     rhc cartridge add mynewapp mysql-5.5
     rhc cartridge add mynewapp phpmyadmin-4
 
 PostgreSQL:
+
     rhc cartridge add mynewapp postgresql-9.2
 
 ...
@@ -79,8 +83,8 @@ if ON_OPENSHIFT: # production settings
 
 ### First push
 Simply:
-    git push
 
+    git push
 
 Django super user
 -----------------
@@ -89,9 +93,3 @@ After first push, your application do not have a super user (admin). You have to
     rhc ssh mynewapp
     source $OPENSHIFT_HOMEDIR/python/virtenv/venv/bin/activate
     python "$OPENSHIFT_REPO_DIR"wsgi/manage.py createsuperuser
-
-
-
-
-
-
