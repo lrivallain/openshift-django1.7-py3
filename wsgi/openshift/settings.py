@@ -39,9 +39,14 @@ TEMPLATE_DEBUG = DEBUG
 
 # Enable debug for only selected hosts
 if DEBUG:
-     ALLOWED_HOSTS = []
+    ALLOWED_HOSTS = []
 else:
-     ALLOWED_HOSTS = ['*']
+    # suggestion of https://github.com/lrivallain/openshift-django1.7-py3/issues/1
+    from socket import gethostname
+    ALLOWED_HOSTS = [ gethostname(), # For internal OpenShift load balancer security purposes.
+        os.environ['OPENSHIFT_APP_DNS'], # Dynamically map to the OpenShift gear name.
+        os.environ['OPENSHIFT_GEAR_DNS'],
+    ]
 
 # List of admins (+ 500 error report by mail)
 ADMINS = (
