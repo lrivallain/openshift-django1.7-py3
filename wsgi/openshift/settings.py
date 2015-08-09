@@ -77,6 +77,12 @@ WSGI_APPLICATION = 'openshift.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
 if ON_OPENSHIFT: # production settings
+    # https://github.com/lrivallain/openshift-django1.7-py3/issues/1
+    try:
+        import pymysql
+        pymysql.install_as_MySQLdb()
+    except ImportError:
+        pass
     DATABASES = {
          'default': { # you can change the backend to any django supported
             'ENGINE':   'django.db.backends.mysql',
