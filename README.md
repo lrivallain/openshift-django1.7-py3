@@ -15,14 +15,16 @@ Secondly, you need to install and configure `rhc` tools on your computer:
 
 Thirdly, you need to create a new OpenShift application with Python 3.x cartridge: 
 - By web interface: [new python 3.3 app](https://openshift.redhat.com/app/console/application_type/cart!python-3.3) + git clone
-- By command line: `rhc app create -a mynewapp -t python-3.3`
+- By command line:
+    mynewapp="newappname"
+    rhc app create -a $mynewapp -t python-3.3
 
 Add django enabler
 ------------------
 
 Run the following commands to add the current project to the app repository:
 
-    cd mynewapp
+    cd $mynewapp
     git remote add upstream -m master git://github.com/lrivallain/openshift-django1.7-py3.git
     git pull -s recursive -X theirs upstream master
 
@@ -45,20 +47,20 @@ Or by using python command line:
 
 When key is generated, you need to set an environment variables on the OpenShift cartridge:
 
-    rhc set-env DJANGO_SETTINGS_SECRET_KEY="your-secret-key" -a mynewapp
+    rhc set-env DJANGO_SETTINGS_SECRET_KEY="your-secret-key" -a $mynewapp
 
 ### Database backend
 
-In `mynewapp/openshift/settings.py`, MySQL backend is configured. If you whant to use one, you'll need to have a database cartridge to your app. Examples:
+In `$mynewapp/openshift/settings.py`, MySQL backend is configured. If you whant to use one, you'll need to have a database cartridge to your app. Examples:
 
 MySQL:
 
-    rhc cartridge add mynewapp mysql-5.5
-    rhc cartridge add mynewapp phpmyadmin-4
+    rhc cartridge-add mysql-5.5 -app $mynewapp
+    rhc cartridge-add phpmyadmin-4 --app $mynewapp
 
 PostgreSQL:
 
-    rhc cartridge add mynewapp postgresql-9.2
+    rhc cartridge-add postgresql-9.2 --app $mynewapp
 
 ...
 
@@ -90,6 +92,6 @@ Django super user
 -----------------
 After first push, your application do not have a super user (admin). You have to create one:
 
-    rhc ssh mynewapp
+    rhc ssh $mynewapp
     source $OPENSHIFT_HOMEDIR/python/virtenv/venv/bin/activate
     python "$OPENSHIFT_REPO_DIR"wsgi/manage.py createsuperuser
