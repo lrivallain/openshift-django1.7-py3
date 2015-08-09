@@ -14,8 +14,11 @@ Secondly, you need to install and configure `rhc` tools on your computer:
     rhc setup
 
 Thirdly, you need to create a new OpenShift application with Python 3.x cartridge: 
-- By web interface: [new python 3.3 app](https://openshift.redhat.com/app/console/application_type/cart!python-3.3) + git clone
-- By command line:
+
+By **web interface**: [new python 3.3 app](https://openshift.redhat.com/app/console/application_type/cart!python-3.3) + git clone
+
+By **command line**:
+
     mynewapp="newappname"
     rhc app create -a $mynewapp -t python-3.3
 
